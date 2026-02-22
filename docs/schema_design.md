@@ -1,14 +1,15 @@
 erDiagram
     USERS {
-        int user_id PK
+        String user_id PK
         varchar username
         varchar email
         varchar password
         timestamp created_at
+        timestamp updated_at
     }
 
     TASKS {
-        int task_id PK
+        String task_id PK
         int user_id FK
         varchar title
         text description
