@@ -1,21 +1,26 @@
-erDiagram
-    USERS {
-        String user_id PK
-        varchar username
-        varchar email
-        varchar password
-        timestamp created_at
-        timestamp updated_at
+classDiagram
+    class USERS {
+        +UUID user_id PK
+        +VARCHAR username UNIQUE
+        +VARCHAR email UNIQUE
+        +VARCHAR password (hashed)
     }
 
-    TASKS {
-        String task_id PK
-        int user_id FK
-        varchar title
-        text description
-        enum status
-        timestamp created_at
-        timestamp updated_at
+    class LISTS {
+        +UUID list_id PK
+        +VARCHAR name
+        +UUID user_id FK -> USERS(user_id)
     }
 
-    USERS ||--o{ TASKS : "owns"
+    class TASKS {
+        +UUID task_id PK
+        +VARCHAR title
+        +TEXT description
+        +ENUM status ('pending','done')
+        timestamp created_at
+        timestamp updated_at
+        +UUID list_id FK -> LISTS(list_id)
+    }
+
+    USERS "1" --> "many" LISTS : owns
+    LISTS "1" --> "many" TASKS : contains
